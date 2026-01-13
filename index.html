@@ -1,0 +1,328 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TRADELINES.SHOP — Demo</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+<div class="brand">
+  <div class="brand-left">
+    <div class="logo"></div>
+    <h1>TRADELINES.SHOP</h1>
+  </div>
+  <div class="brand-right">
+    <div class="user-info" id="userInfo" style="display:none;">
+      <span id="userName"></span>
+      <button id="profileBtn" class="btn" style="background:var(--accent);border-color:var(--accent);margin-left:8px;">Profile</button>
+      <button id="logoutBtn" class="btn" style="background:var(--accent);border-color:var(--accent);margin-left:8px;">Logout</button>
+    </div>
+    <div class="auth-buttons" id="authButtons">
+      <button id="loginBtn" class="btn" style="background:var(--accent);border-color:var(--accent);margin-right:8px;">Login</button>
+      <button id="registerBtn" class="btn">Register</button>
+    </div>
+    <div class="cart-icon" id="cartIcon">Cart <span id="cartCount">0</span></div>
+  </div>
+</div>
+<div class="card">
+  <div class="toolbar">
+    <div class="search">
+      <input id="searchInput" type="text" placeholder="Search by bank, limit, statement day...">
+    </div>
+    <button id="resetFilters" class="btn desktop-reset">Reset</button>
+  </div>
+  <div class="table-wrap">
+    <table id="linesTable">
+      <thead>
+        <tr>
+          <th class="sortable" data-key="lender">Lender <span class="arrow">⇅</span></th>
+          <th class="sortable" data-key="limit">Limit <span class="arrow">⇅</span></th>
+          <th class="sortable" data-key="statementDay">Statement Day <span class="arrow">⇅</span></th>
+          <th class="sortable" data-key="posting">Posting Day <span class="arrow">⇅</span></th>
+          <th class="sortable" data-key="ageMonths">Account Age <span class="arrow">⇅</span></th>
+          <th class="sortable" data-key="price">Price <span class="arrow">⇅</span></th>
+            <th>Actions</th>
+        </tr>
+        <tr class="filters">
+          <th><select id="lenderSelect"><option value="">Select</option><option>CITIBANK</option><option>ELAN</option><option>CHASE</option><option>USBANK</option><option>DISCOVER</option><option>PNC</option><option>Bank of America</option><option>BARCLAYS</option><option>CAPITAL ONE</option><option>TD BANK</option></select></th>
+          <th><select id="limitSelect"><option value="">Select Range</option><option>$1,000 - $5,000</option><option>$5,001 - $10,000</option><option>$10,001 - $15,000</option><option>$15,001 - $20,000</option><option>$20,001 - $30,000</option><option>$30,000 - $50,000</option><option>$50,001 +</option></select></th>
+          <th><select id="statementSelect"><option value="">Select</option><option>01st</option><option>02nd</option><option>03rd</option><option>04th</option><option>05th</option><option>06th</option><option>07th</option><option>08th</option><option>09th</option><option>10th</option><option>11th</option><option>12th</option><option>13th</option><option>14th</option><option>15th</option><option>16th</option><option>17th</option><option>18th</option><option>19th</option><option>20th</option><option>21st</option><option>22nd</option><option>23rd</option><option>24th</option><option>25th</option><option>26th</option><option>27th</option><option>28th</option><option>29th</option><option>30th</option><option>31st</option></select></th>
+          <th><input id="postingInput" type="text" placeholder="напр. Nov 24,2025"></th>
+          <th><select id="ageSelect"><option value="">Select Range</option><option>0 - 3</option><option>4 - 10</option><option>11 - 18</option><option>19 - 25</option><option>25 +</option></select></th>
+          <th><select id="priceSelect"><option value="">Select Range</option><option>$100 - $500</option><option>$501 - $750</option><option>$751 - $1150</option><option>$1150 +</option></select></th>
+          <th><button id="exportCSV" class="export-btn">Export CSV</button></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="mobile-filters" id="mobileFilters">
+    <div class="mobile-filter-group">
+      <label>Lender:</label>
+      <select id="mobileLenderSelect"><option value="">Select</option><option>CITIBANK</option><option>ELAN</option><option>CHASE</option><option>USBANK</option><option>DISCOVER</option><option>PNC</option><option>Bank of America</option><option>BARCLAYS</option><option>CAPITAL ONE</option><option>TD BANK</option></select>
+    </div>
+    <div class="mobile-filter-group">
+      <label>Limit:</label>
+      <select id="mobileLimitSelect"><option value="">Select Range</option><option>$1,000 - $5,000</option><option>$5,001 - $10,000</option><option>$10,001 - $15,000</option><option>$15,001 - $20,000</option><option>$20,001 - $30,000</option><option>$30,000 - $50,000</option><option>$50,001 +</option></select>
+    </div>
+    <div class="mobile-filter-group">
+      <label>Statement Day:</label>
+      <select id="mobileStatementSelect"><option value="">Select</option><option>01st</option><option>02nd</option><option>03rd</option><option>04th</option><option>05th</option><option>06th</option><option>07th</option><option>08th</option><option>09th</option><option>10th</option><option>11th</option><option>12th</option><option>13th</option><option>14th</option><option>15th</option><option>16th</option><option>17th</option><option>18th</option><option>19th</option><option>20th</option><option>21st</option><option>22nd</option><option>23rd</option><option>24th</option><option>25th</option><option>26th</option><option>27th</option><option>28th</option><option>29th</option><option>30th</option><option>31st</option></select>
+    </div>
+    <div class="mobile-filter-group">
+      <label>Posting Day:</label>
+      <input id="mobilePostingInput" type="text" placeholder="напр. Nov 24,2025">
+    </div>
+    <div class="mobile-filter-group">
+      <label>Account Age:</label>
+      <select id="mobileAgeSelect"><option value="">Select Range</option><option>0 - 3</option><option>4 - 10</option><option>11 - 18</option><option>19 - 25</option><option>25 +</option></select>
+    </div>
+    <div class="mobile-filter-group">
+      <label>Price:</label>
+      <select id="mobilePriceSelect"><option value="">Select Range</option><option>$100 - $500</option><option>$501 - $750</option><option>$751 - $1150</option><option>$1150 +</option></select>
+    </div>
+    <div class="mobile-filter-reset">
+      <button id="mobileResetFilters" class="btn" style="width:100%">Reset</button>
+    </div>
+  </div>
+  <div class="mobile-cards" id="mobileCards"></div>
+  <div class="footer"><div class="pill"><span class="muted">Total records:</span> <span id="totalCount">0</span></div></div>
+</div>
+</div>
+
+<div id="cartModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Cart</h2>
+      <span class="close" id="closeCart">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div id="cartItems"></div>
+      <div class="cart-total">
+        <strong>Total: $<span id="cartTotal">0.00</span></strong>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button id="clearCart" class="btn" style="background:var(--danger);border-color:var(--danger)">Clear Cart</button>
+      <button id="checkout" class="btn">Checkout</button>
+    </div>
+  </div>
+</div>
+
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Login</h2>
+      <span class="close" id="closeLogin">&times;</span>
+    </div>
+    <div class="modal-body">
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email:</label>
+          <input type="email" id="loginEmail" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPhone">Phone Number:</label>
+          <input type="tel" id="loginPhone" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password:</label>
+          <input type="password" id="loginPassword" required>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn">Login</button>
+          <button type="button" id="showRegister" class="btn" style="background:transparent;border-color:var(--border);color:var(--text)">Don't have an account?</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="registerModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Registration</h2>
+      <span class="close" id="closeRegister">&times;</span>
+    </div>
+    <div class="modal-body">
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="regFirstName">First Name:</label>
+          <input type="text" id="regFirstName" required>
+        </div>
+        <div class="form-group">
+          <label for="regLastName">Last Name:</label>
+          <input type="text" id="regLastName" required>
+        </div>
+        <div class="form-group">
+          <label for="regPhone">Phone Number:</label>
+          <input type="tel" id="regPhone" required>
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email:</label>
+          <input type="email" id="regEmail" required>
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Password:</label>
+          <input type="password" id="regPassword" required minlength="6">
+        </div>
+        <div class="form-group">
+          <label for="regConfirmPassword">Confirm Password:</label>
+          <input type="password" id="regConfirmPassword" required>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn">Register</button>
+          <button type="button" id="showLogin" class="btn" style="background:transparent;border-color:var(--border);color:var(--text)">Already have an account?</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="profileModal" class="modal">
+  <div class="modal-content" style="max-width:800px;">
+    <div class="modal-header">
+      <h2>Profile</h2>
+      <span class="close" id="closeProfile">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div class="profile-tabs">
+        <button class="tab-btn active" data-tab="balance">Balance</button>
+        <button class="tab-btn" data-tab="orders">Orders</button>
+      </div>
+      
+      <div id="balanceTab" class="tab-content active">
+        <div class="cart-summary">
+          <h3>Cart Summary</h3>
+          <div class="summary-info">
+            <div class="summary-row">
+              <span>Items in cart:</span>
+              <span id="cartItemsCount">0</span>
+            </div>
+            <div class="summary-row">
+              <span>Total Amount:</span>
+              <span class="total-amount">$<span id="cartTotalAmount">0.00</span></span>
+            </div>
+          </div>
+          <button id="sendConfirmationBtn" class="btn" style="width:100%;margin-top:16px;">Send Confirmation</button>
+        </div>
+        
+        <div class="payment-section">
+          <h3>Payment Options</h3>
+          <div class="payment-methods">
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="zelle" checked>
+              <span>Zelle (Same-day Transfer)</span>
+            </label>
+          </div>
+          
+          <div class="zelle-instructions">
+            <h4>Zelle Payment Instructions</h4>
+            <div class="payment-details">
+              <div class="detail-row">
+                <strong>Name:</strong> ZHART LLC
+              </div>
+              <div class="detail-row">
+                <strong>Phone:</strong> 2245844005
+              </div>
+            </div>
+          </div>
+          
+          <div class="please-note">
+            <h4>Please Note</h4>
+            <p>For same-day account credit, upload transfer confirmation under Proof of Payment. Contact your bank directly to learn more about their sending limits through Zelle</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="ordersTab" class="tab-content">
+        <h3>Order History</h3>
+        <div id="ordersList" class="orders-list">
+          <p class="no-data">No orders yet</p>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="addFundsModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Add Funds</h2>
+      <span class="close" id="closeAddFunds">&times;</span>
+    </div>
+    <div class="modal-body">
+      <form id="addFundsForm">
+        <div class="form-group">
+          <label for="amount">Amount ($):</label>
+          <input type="number" id="amount" min="10" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="paymentMethod">Payment Method:</label>
+          <select id="paymentMethod" required>
+            <option value="zelle" selected>Zelle (Same-day Transfer)</option>
+            <option value="card">Credit Card</option>
+            <option value="paypal">PayPal</option>
+            <option value="crypto">Cryptocurrency</option>
+          </select>
+        </div>
+        <div class="zelle-info" style="background:var(--accent-50);padding:12px;border-radius:8px;margin-top:12px;font-size:14px;">
+          <strong>Zelle Payment Details:</strong><br>
+          <strong>Name:</strong> ZHART LLC<br>
+          <strong>Phone:</strong> 2245844005
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn">Add Funds</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="confirmationModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Confirmation</h2>
+      <span class="close" id="closeConfirmation">&times;</span>
+    </div>
+    <div class="modal-body" style="text-align:center;padding:40px 20px;">
+      <p style="font-size:18px;color:var(--text);margin:0;">The confirmation has been sent. Our manager will contact you shortly.</p>
+    </div>
+    <div class="modal-footer">
+      <button id="okConfirmation" class="btn" style="width:100%;">OK</button>
+    </div>
+  </div>
+</div>
+
+<div class="compare-bar" id="compareBar">
+  <div class="compare-items" id="compareItems"></div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;">
+    <button id="clearCompare" class="btn" style="background:var(--danger);border-color:var(--danger);">Clear All</button>
+    <button id="compareNow" class="btn">Compare Selected</button>
+  </div>
+</div>
+
+<div id="compareModal" class="modal">
+  <div class="modal-content" style="max-width:900px;">
+    <div class="modal-header">
+      <h2>Compare Tradelines</h2>
+      <span class="close" id="closeCompare">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div id="compareTable"></div>
+    </div>
+  </div>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loader"></div>
+</div>
+
+<button id="scrollToTop" class="scroll-to-top" title="Наверх" aria-label="Scroll to top"></button>
+<script src="js/main.js"></script>
+</body>
+</html>
+
